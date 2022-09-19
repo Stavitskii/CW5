@@ -48,9 +48,9 @@ class Skill(ABC):
 
 
 class FuryPunch(Skill):
-    name = ...
-    stamina = ...
-    damage = ...
+    name = "Fury Punch"
+    stamina = 6
+    damage = 12
 
     def skill_effect(self):
         # TODO логика использования скилла -> return str
@@ -62,9 +62,9 @@ class FuryPunch(Skill):
 
 
 class HardShot(Skill):
-    name = ...
-    stamina = ...
-    damage = ...
+    name = "HardShot"
+    stamina = 5
+    damage = 15
 
     def skill_effect(self):
         pass
