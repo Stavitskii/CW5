@@ -17,10 +17,9 @@ class Arena(metaclass=BaseSingleton):
     game_is_running = False
 
     def start_game(self, player: BaseUnit, enemy: BaseUnit):
-        # TODO НАЧАЛО ИГРЫ -> None
-        # TODO присваиваем экземпляру класса аттрибуты "игрок" и "противник"
-        # TODO а также выставляем True для свойства "началась ли игра"
-        pass
+        self.player = player
+        self.enemy = enemy
+        self.game_is_running = True
 
     def _check_players_hp(self):
         # TODO ПРОВЕРКА ЗДОРОВЬЯ ИГРОКА И ВРАГА
