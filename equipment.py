@@ -39,20 +39,16 @@ class Equipment:
         self.equipment = self._get_equipment_data()
 
     def get_weapon(self, weapon_name) -> Weapon:
-        # TODO возвращает объект оружия по имени
-        pass
+        return next(filter(lambda weapon: weapon.name == weapon_name, self.equipment.weapons))
 
     def get_armor(self, armor_name) -> Armor:
-        # TODO возвращает объект брони по имени
-        pass
+        return next(filter(lambda armor: armor.name == armor_name, self.equipment.armors))
 
     def get_weapons_names(self) -> list:
-        # TODO возвращаем список с оружием
-        pass
+        return [weapon.name for weapon in self.equipment.weapons]
 
     def get_armors_names(self) -> list:
-        # TODO возвращаем список с броней
-        pass
+        return [armor.name for armor in self.equipment.armors]
 
     @staticmethod
     def _get_equipment_data() -> EquipmentData:
