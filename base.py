@@ -22,6 +22,17 @@ class Arena(metaclass=BaseSingleton):
         self.game_is_running = True
 
     def _check_players_hp(self):
+        if self.player.hp <= 0 and self.player.hp <= 0:
+            self.battle_result = "Nobody Wins"
+            return self._end_game()
+        elif self.player.hp <= 0:
+            self.battle_result = "Game Over"
+            return self._end_game()
+        elif self.enemy.hp <= 0:
+            self.battle_result = "You Win"
+            return self._end_game()
+
+
         # TODO ПРОВЕРКА ЗДОРОВЬЯ ИГРОКА И ВРАГА
         # TODO проверка здоровья игрока и врага и возвращение результата строкой:
         # TODO может быть три результата:
