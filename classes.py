@@ -12,7 +12,8 @@ class UnitClass:
     armor: float
     skill: Skill
 
-WarriorClass =  UnitClass(
+
+WarriorClass = UnitClass(
     name="Shrek",
     max_health=100,
     max_stamina=20,
@@ -20,9 +21,9 @@ WarriorClass =  UnitClass(
     stamina=0.9,
     armor=2,
     skill=FuryPunch
-    )
+)
 
-ThiefClass =  UnitClass(
+ThiefClass = UnitClass(
     name="Ork",
     max_health=60,
     max_stamina=15,
@@ -30,7 +31,7 @@ ThiefClass =  UnitClass(
     stamina=0.9,
     armor=0.7,
     skill=HardShot
-    )
+)
 
 unit_classes = {
     ThiefClass.name: ThiefClass,
