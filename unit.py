@@ -75,7 +75,12 @@ class BaseUnit(ABC):
         self.unit_class.skill.use(user=self, target=target)
         и уже эта функция вернем нам строку которая характеризует выполнение умения
         """
-        pass
+        if self._is_skill_used:
+            return "Навык использован"
+        else:
+            if self.unit_class.skill._is_stamina_enough:
+                self._is_skill_used = True
+            return self.unit_class.skill.use(user=self, target=target)
 
 
 class PlayerUnit(BaseUnit):
@@ -87,11 +92,15 @@ class PlayerUnit(BaseUnit):
         вызывается функция self._count_damage(target)
         а также возвращается результат в виде строки
         """
-        pass
-        # TODO результат функции должен возвращать следующие строки:
-        f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} соперника и наносит {damage} урона."
-        f"{self.name} используя {self.weapon.name} наносит удар, но {target.armor.name} cоперника его останавливает."
-        f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
+        if self.stamina >= self.weapon.stamina_per_hit:
+            damage = self._count_damage(target)
+            if damage > 0:
+                return f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} соперника и наносит {damage} урона."
+            else:
+                return f"{self.name} используя {self.weapon.name} наносит удар, но {target.armor.name} cоперника его останавливает."
+
+        else:
+            return f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
 
 
 class EnemyUnit(BaseUnit):
