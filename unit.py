@@ -53,9 +53,11 @@ class BaseUnit(ABC):
         return damage
 
     def get_damage(self, damage: int) -> Optional[int]:
-        # TODO получение урона целью
-        #      присваиваем новое значение для аттрибута self.hp
-        pass
+        if damage > 0:
+            self.hp -= damage
+            return round(damage, 1)
+        return 0
+
 
     @abstractmethod
     def hit(self, target: BaseUnit) -> str:
