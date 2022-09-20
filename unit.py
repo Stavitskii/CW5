@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from equipment import Equipment, Weapon, Armor
 from classes import UnitClass
-from random import randint
+from random import randint, uniform
 from typing import Optional, Any
 
 
@@ -58,13 +58,17 @@ class BaseUnit(ABC):
             return round(damage, 1)
         return 0
 
-
-    @abstractmethod
     def hit(self, target: BaseUnit) -> str:
-        """
-        этот метод будет переопределен ниже
-        """
-        pass
+
+        if self.stamina >= self.weapon.stamina_per_hit:
+            damage = self._count_damage(target)
+            if damage > 0:
+                return f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} соперника и наносит {damage} урона."
+            else:
+                return f"{self.name} используя {self.weapon.name} наносит удар, но {target.armor.name} cоперника его останавливает."
+
+        else:
+            return f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
 
     def use_skill(self, target: BaseUnit) -> str:
         """
@@ -84,23 +88,7 @@ class BaseUnit(ABC):
 
 
 class PlayerUnit(BaseUnit):
-
-    def hit(self, target: BaseUnit) -> str:
-        """
-        функция удар игрока:
-        здесь происходит проверка достаточно ли выносливости для нанесения удара.
-        вызывается функция self._count_damage(target)
-        а также возвращается результат в виде строки
-        """
-        if self.stamina >= self.weapon.stamina_per_hit:
-            damage = self._count_damage(target)
-            if damage > 0:
-                return f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} соперника и наносит {damage} урона."
-            else:
-                return f"{self.name} используя {self.weapon.name} наносит удар, но {target.armor.name} cоперника его останавливает."
-
-        else:
-            return f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
+    pass
 
 
 class EnemyUnit(BaseUnit):
@@ -114,7 +102,8 @@ class EnemyUnit(BaseUnit):
         Если умение не применено, противник наносит простой удар, где также используется
         функция _count_damage(target
         """
-        # TODO результат функции должен возвращать результат функции skill.use или же следующие строки:
-        f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} и наносит Вам {damage} урона."
-        f"{self.name} используя {self.weapon.name} наносит удар, но Ваш(а) {target.armor.name} его останавливает."
-        f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
+        if uniform(1, 100) in range(1, 10) and not self._is_skill_used:
+            return self.use_skill(target)
+        return super().hit(target)
+
+
