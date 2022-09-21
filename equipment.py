@@ -54,7 +54,7 @@ class Equipment:
     def _get_equipment_data() -> EquipmentData:
         # TODO этот метод загружает json в переменную EquipmentData
 
-        with open("./data/equipment.json") as f:
+        with open("./data/equipment.json", encoding='utf-8') as f:
             equipment_file = f
             data = json.load(equipment_file)
         equipment_schema = marshmallow_dataclass.class_schema(EquipmentData)
