@@ -16,6 +16,7 @@ class Arena(metaclass=BaseSingleton):
     player = None
     enemy = None
     game_is_running = False
+    battle_result = "Battle is not finised"
 
     def start_game(self, player: BaseUnit, enemy: BaseUnit):
         self.player = player
@@ -38,32 +39,23 @@ class Arena(metaclass=BaseSingleton):
         self.enemy.add_stamina(self.STAMINA_PER_ROUND)
 
     def next_turn(self):
-        # TODO СЛЕДУЮЩИЙ ХОД -> return result | return self.enemy.hit(self.player)
-        # TODO срабатывает когда игроп пропускает ход или когда игрок наносит удар.
-        # TODO создаем поле result и проверяем что вернется в результате функции self._check_players_hp
-        # TODO если result -> возвращаем его
-        # TODO если же результата пока нет и после завершения хода игра продолжается,
-        # TODO тогда запускаем процесс регенирации стамины и здоровья для игроков (self._stamina_regeneration)
-        # TODO и вызываем функцию self.enemy.hit(self.player) - ответный удар врага
-        pass
+        result = self._check_players_hp()
+        if result:
+            return result
+        self._stamina_regeneration()
+        return self.enemy.hit(self.player)
 
     def _end_game(self):
-        # TODO КНОПКА ЗАВЕРШЕНИЕ ИГРЫ - > return result: str
-        # TODO очищаем синглтон - self._instances = {}
-        # TODO останавливаем игру (game_is_running)
-        # TODO возвращаем результат
-        pass
+        self._instances = {}
+        self.game_is_running = False
+        return self.battle_result
 
     def player_hit(self):
-        # TODO КНОПКА УДАР ИГРОКА -> return result: str
-        # TODO получаем результат от функции self.player.hit
-        # TODO запускаем следующий ход
-        # TODO возвращаем результат удара строкой
-        pass
+        result = self.player.hit(self.enemy)
+        self.next_turn()
+        return result
 
     def player_use_skill(self):
-        # TODO КНОПКА ИГРОК ИСПОЛЬЗУЕТ УМЕНИЕ
-        # TODO получаем результат от функции self.use_skill
-        # TODO включаем следующий ход
-        # TODO возвращаем результат удара строкой
-        pass
+        result = self.player.use_skill(self.enemy)
+        self.next_turn()
+        return result
